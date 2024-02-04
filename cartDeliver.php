@@ -123,7 +123,7 @@ if (isset($_SESSION['username'])) {
                     background-color: yellow;
                     animation: transitionIn 1s;
                     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-                    margin-left: 1000px;
+                    margin-left: 1070px;
                 }
 
                 .rounded-square2 {
@@ -258,12 +258,12 @@ if (isset($_SESSION['username'])) {
                     width: 42%;
                     height: 80px;
                     border-radius: 10px;
-                    background-color: #181444;
+                    background-color: black;
                     color: white;
                     transition: box-shadow 0.2s ease-in-out;
                     animation: transitionIn 1s;
                     margin-top: 715px;
-                    margin-left: 1060px;
+                    margin-left: 1070px;
                     font-family: 'Poppins', sans-serif;
                     font-size: 25px;
                     font-weight: bold;
@@ -286,7 +286,7 @@ if (isset($_SESSION['username'])) {
                     transition: box-shadow 0.2s ease-in-out;
                     animation: transitionIn 1s;
                     margin-top: 800px;
-                    margin-left: 1060px;
+                    margin-left: 1070px;
                     font-family: 'Poppins', sans-serif;
                     font-size: 25px;
                     font-weight: bold;
@@ -310,7 +310,7 @@ if (isset($_SESSION['username'])) {
                     transition: box-shadow 0.2s ease-in-out;
                     animation: transitionIn 1s;
                     margin-top: 885px;
-                    margin-left: 1060px;
+                    margin-left: 1070px;
                     font-family: 'Poppins', sans-serif;
                     font-size: 25px;
                     font-weight: bold;

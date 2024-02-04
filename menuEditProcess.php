@@ -43,6 +43,7 @@
         }
 
         #cover {
+            font-family: 'Poppins', sans-serif;
             position: fixed;
             top: 0;
             right: 0;
@@ -50,9 +51,10 @@
             left: 0;
             background-color: rgba(0, 0, 0, 0.8);
             z-index: 99;
+            color:white;
         }
 
-        #completed {
+        #donepay {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -66,7 +68,7 @@
             z-index: 100;
         }
 
-        #completed h1 {
+        #donepay h1 {
             text-align: center;
             color: white;
             font-size: 70px;
@@ -74,7 +76,25 @@
             animation: transitionIn 1s;
         }
 
-        #completed button {
+        #donepay p:not(.small) {
+            font-family: 'Poppins', sans-serif;
+            font-size: 40px;
+            color: brown;
+            text-align: center;
+            font-weight: bold;
+            animation: transitionIn 1s;
+        }
+
+        .small {
+            font-family: 'Poppins', sans-serif;
+            font-size: 30px;
+            color: brown;
+            text-align: center;
+            font-weight: bold;
+            animation: transitionIn 1s;
+        }
+
+        #donepay button {
             width: 200px;
             height: 50px;
             background-color: black;
@@ -91,27 +111,18 @@
             animation: transitionIn 1s;
         }
 
-        #completed button {
-            width: 200px;
-            height: 50px;
-            background-color: black;
-            border-radius: 25px;
-            font-weight: bold;
-            color: orange;
-            font-family: 'Poppins', sans-serif;
-            font-size: 16px;
-            margin-top: 30px;
-            margin-left: 305px;
-            border: none;
-            outline: none;
-            transition: box-shadow 0.2s ease-in-out;
-            animation: transitionIn 1s;
-        }
-
-        #completed button:hover {
+        #donepay button:hover {
             box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.5);
         }
 
+        #donepay img {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin-left: 300px;
+            animation: transitionIn 1s;
+        }
     </style>
 </head>
 
@@ -127,13 +138,13 @@ session_start();
 $username = $_SESSION['username'];
 if (isset($_POST['Update'])) {
     /* capture values from HTML form */
-    $custPhonenNum = $_POST['phonenumber'];
-    $custAddress = $_POST['address'];
-    $custPassword = $_POST['password'];
+    $menuID = $_POST['menuID'];
+    $menuPrice = $_POST['menuPrice'];
+    $menuDesc = $_POST['menuDesc'];
 
     // Check if any of the textboxes are empty
-    if (empty($custPhonenNum) || empty($custAddress) || empty($custPassword)) {
-        echo "<div id='completed'>
+    if (empty($menuPrice) || empty($menuDesc)) {
+        echo "<div id='donepay'>
         <h1>Oh No!</h1>
         <p>Please fill in all the fields!</p>
             <button onclick='goBack()'>Try Again</button>
@@ -142,83 +153,44 @@ if (isset($_POST['Update'])) {
         exit;
     }
 
-    // Validate password
-    if (
-        strlen($custPassword) < 8 || strlen($custPassword) > 25 ||
-        !preg_match("/[a-z]/", $custPassword) || // Check for lowercase letter
-        !preg_match("/[A-Z]/", $custPassword) || // Check for uppercase letter
-        !preg_match("/[0-9]/", $custPassword) || // Check for digit
-        !preg_match("/[!@#$%^&*()\-_=+{};:,<.>]/", $custPassword) // Check for special character
-    ) {
-        echo "<div id='completed'>
+    // Check if the price is not a valid number
+    if (!is_numeric($menuPrice)) {
+        echo "<div id='donepay'>
         <h1>Oh No!</h1>
-        <p>Your password does not meet the requirements!</p>
-            <button onclick='goBack()'>Try Again</button>
+        <p>Price must be a number!</p>
+        <a href='adminDash.php'>
+        <button>Try Again</button>
+        </a>
     </div>
     <div id='cover' style='display:block'></div>";
         exit;
     }
 
-    $hashedPassword = password_hash($custPassword, PASSWORD_DEFAULT);
-
-    $sql0 = "SELECT custUsername FROM customer WHERE custUsername= '$username'";
-    $query0 = mysqli_query($dbconn, $sql0) or die("Error: " . mysqli_error($dbconn));
+    $sql0 = "SELECT * FROM menu WHERE menuID = ?";
+    $stmt0 = mysqli_prepare($dbconn, $sql0);
+    mysqli_stmt_bind_param($stmt0, "i", $menuID);
+    mysqli_stmt_execute($stmt0);
+    $query0 = mysqli_stmt_get_result($stmt0);
     $row0 = mysqli_num_rows($query0);
-    if ($row0 == 0) {
-        echo "<div id='completed'>
-        <h1>Oh No!</h1>
-        <p>The Username is already taken!</p>
-        <a href='registerCust.php'>
-            <button>Back</button>
-        </a>
-    </div>
-    <div id='cover' style='display:block'></div>";
-    } else {
-        /* execute SQL UPDATE command */
-        $sql2 = "UPDATE customer SET custPhoneNum = '" . $custPhonenNum . "',
-	custAddress= '" . $custAddress . "',
-	custPassword = '" . $hashedPassword . "' where custUsername = '" . $username . "'";
 
-        mysqli_query($dbconn, $sql2) or die("Error: " . mysqli_error($dbconn));
+    /* execute SQL UPDATE command */
+    $sql2 = "UPDATE menu SET menuPrice = ?, menuDesc = ? WHERE menuID = ?";
+    $stmt2 = mysqli_prepare($dbconn, $sql2);
+    mysqli_stmt_bind_param($stmt2, "dss", $menuPrice, $menuDesc, $menuID);
+    mysqli_stmt_execute($stmt2);
 
-        /* display a message */
-        echo "<div id='completed'>
+    /* display a message */
+    echo "<div id='donepay'>
         <h1>Congratulations!</h1>
-        <p>Account Updated Succesfully!</p>
-        <a href='HomeCust.php'>
+        <p>Menu Updated Successfully!</p>
+        <a href='adminDash.php'>
             <button>Back</button>
         </a>
     </div>
     <div id='cover' style='display:block'></div>";
-    }
-} elseif (isset($_POST['Delete'])) {
-
-    $sql0 = "SELECT *  FROM customer WHERE custUsername= '$username'";
-
-    $query0 = mysqli_query($dbconn, $sql0) or die("Error: " . mysqli_error($dbconn));
-    $row0 = mysqli_num_rows($query0);
-    if ($row0 == 0) {
-        echo "Record is not existed";
-    } else {
-        /* execute SQL DELETE command */
-        $sql2 = "UPDATE customer SET custStatus = 'DEACTIVATED' WHERE custUsername= '$username'";
-
-        mysqli_query($dbconn, $sql2) or die("Error: " . mysqli_error($dbconn));
-
-        /* display a message */
-        echo "<div id='completed'>
-        <h1>Congratulation!</h1>
-        <p>Account Deleted Succesfully!</p>
-        <a href='index.html'>
-            <button>Back</button>
-        </a>
-    </div>
-    <div id='cover' style='display:block'></div>";
-    }
 }
 
 // close if isset()
 /* close db connection */
 mysqli_close($dbconn);
-
 ?>

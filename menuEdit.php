@@ -8,7 +8,7 @@ if (isset($_SESSION['username'])) {
 
     $sql = "SELECT * FROM menu WHERE menuID = $menuID";
     // Execute the SQL statement
-    $query = mysqli_query($dbconn, $sql) or die("Error: " . mysqli_error());
+    $query = mysqli_query($dbconn, $sql) or die("Error: " . mysqli_error($dbconn));
 
     $r = mysqli_fetch_assoc($query);
     $menuID = $r['menuID'];

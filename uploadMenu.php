@@ -155,28 +155,36 @@ if (isset($_POST['submit'])) {
 
         #completed h1 {
             text-align: center;
-            color: black;
-            font-size: 70px;
-            margin-top: 200px;
-            animation: transitionIn 1s;
-        }
-
-        #completed p {
-            font-family: 'Poppins', sans-serif;
-            font-size: 40px;
             color: white;
-            text-align: center;
-            font-weight: bold;
+            font-size: 70px;
+            margin-top: 140px;
             animation: transitionIn 1s;
         }
 
         #completed button {
             width: 200px;
             height: 50px;
-            background-color: #181444;
+            background-color: black;
             border-radius: 25px;
             font-weight: bold;
-            color: black;
+            color: orange;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            margin-top: 30px;
+            margin-left: 305px;
+            border: none;
+            outline: none;
+            transition: box-shadow 0.2s ease-in-out;
+            animation: transitionIn 1s;
+        }
+
+        #completed button {
+            width: 200px;
+            height: 50px;
+            background-color: black;
+            border-radius: 25px;
+            font-weight: bold;
+            color: orange;
             font-family: 'Poppins', sans-serif;
             font-size: 16px;
             margin-top: 30px;

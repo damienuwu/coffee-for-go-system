@@ -44,7 +44,7 @@
             z-index: 99;
         }
 
-        #completed {
+        #donepay {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -58,30 +58,21 @@
             z-index: 100;
         }
 
-        #completed h1 {
+        #donepay h1 {
             text-align: center;
-            color: black;
-            font-size: 70px;
-            margin-top: 200px;
-            animation: transitionIn 1s;
-        }
-
-        #completed p {
-            font-family: 'Poppins', sans-serif;
-            font-size: 40px;
             color: white;
-            text-align: center;
-            font-weight: bold;
+            font-size: 70px;
+            margin-top: 140px;
             animation: transitionIn 1s;
         }
 
-        #completed button {
+        #donepay button {
             width: 200px;
             height: 50px;
-            background-color: #181444;
+            background-color: black;
             border-radius: 25px;
             font-weight: bold;
-            color: black;
+            color: orange;
             font-family: 'Poppins', sans-serif;
             font-size: 16px;
             margin-top: 30px;
@@ -92,8 +83,43 @@
             animation: transitionIn 1s;
         }
 
-        #completed button:hover {
+        .small {
+            font-family: 'Poppins', sans-serif;
+            font-size: 30px;
+            color: brown;
+            text-align: center;
+            font-weight: bold;
+            animation: transitionIn 1s;
+        }
+
+        #donepay button {
+            width: 200px;
+            height: 50px;
+            background-color: black;
+            border-radius: 25px;
+            font-weight: bold;
+            color: orange;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            margin-top: 30px;
+            margin-left: 305px;
+            border: none;
+            outline: none;
+            transition: box-shadow 0.2s ease-in-out;
+            animation: transitionIn 1s;
+        }
+
+        #donepay button:hover {
             box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        #donepay img {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin-left: 300px;
+            animation: transitionIn 1s;
         }
 
     </style>
@@ -120,8 +146,8 @@ if(isset($_POST['login'])){
         $query = mysqli_query($dbconn , $sql) or die ("Error : ".mysqli_error($dbconn));
         $row = mysqli_num_rows($query);
         $r = mysqli_fetch_assoc($query);
-        if($row == 0 || !password_verify($password,$r['custPassword'])){
-            echo "<div id='completed'>
+        if($row == 0 && !password_verify($password,$r['custPassword'])){
+            echo "<div id='donepay'>
                 <h1>Oh No!</h1>
                 <p>Invalid Username or Password!</p>
                 <a href='Login.html'>
@@ -130,7 +156,7 @@ if(isset($_POST['login'])){
             </div>
             <div id='cover' style='display:block'></div>";
             }else if($r['custStatus'] == 'DEACTIVATED'){
-                echo "<div id='completed'>
+                echo "<div id='donepay'>
                 <h1>Oh No!</h1>
                 <p>Invalid Username or Password!</p>
                 <a href='Login.html'>

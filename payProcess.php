@@ -168,7 +168,7 @@ if (isset($_SESSION['username'])) {
 
         #donepay h1 {
             text-align: center;
-            color: brown;
+            color: white;
             font-size: 70px;
             margin-top: 140px;
             animation: transitionIn 1s;
